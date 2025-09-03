@@ -185,20 +185,22 @@ function MouseFollower() {
         }}
       />
 
-      {/* Outer ring */}
+      {/* Neon glowing circle (kept) */}
       <motion.div
-        className="fixed top-0 left-0 w-16 h-16 rounded-full border border-purple-400/40 pointer-events-none z-30"
+        className="fixed top-0 left-0 w-10 h-10 rounded-full pointer-events-none z-40"
         animate={{
-          x: mousePosition.x - 32,
-          y: mousePosition.y - 32,
-          opacity: isVisible ? 0.4 : 0,
+          x: mousePosition.x - 20,
+          y: mousePosition.y - 20,
+          opacity: isVisible ? 0.6 : 0,
         }}
         transition={{
           type: "spring",
-          stiffness: 80,
-          damping: 15,
+          stiffness: 120,
+          damping: 20,
         }}
-      />
+      >
+        <div className="w-full h-full rounded-full bg-gradient-to-r from-purple-500 to-pink-500 opacity-50 blur-md" />
+      </motion.div>
     </>
   )
 }
