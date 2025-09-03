@@ -144,6 +144,7 @@ function MouseFollowLight() {
   )
 }
 
+// ===== Mouse Cursor Follower (UI Layer) =====
 function MouseFollower() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isVisible, setIsVisible] = useState(false)
@@ -169,6 +170,7 @@ function MouseFollower() {
 
   return (
     <>
+      {/* Small white dot */}
       <motion.div
         className="fixed top-0 left-0 w-4 h-4 rounded-full bg-white pointer-events-none z-50 mix-blend-difference"
         animate={{
@@ -182,25 +184,26 @@ function MouseFollower() {
           damping: 28,
         }}
       />
+
+      {/* Outer ring */}
       <motion.div
-        className="fixed top-0 left-0 w-10 h-10 rounded-full pointer-events-none z-40"
+        className="fixed top-0 left-0 w-16 h-16 rounded-full border border-purple-400/40 pointer-events-none z-30"
         animate={{
-          x: mousePosition.x - 20,
-          y: mousePosition.y - 20,
-          opacity: isVisible ? 0.6 : 0,
+          x: mousePosition.x - 32,
+          y: mousePosition.y - 32,
+          opacity: isVisible ? 0.4 : 0,
         }}
         transition={{
           type: "spring",
-          stiffness: 120,
-          damping: 20,
+          stiffness: 80,
+          damping: 15,
         }}
-      >
-        <div className="w-full h-full rounded-full bg-gradient-to-r from-purple-500 to-pink-500 opacity-50 blur-md" />
-      </motion.div>
+      />
     </>
   )
 }
 
+// ===== 3D Scene =====
 function Scene3D() {
   return (
     <>
