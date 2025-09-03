@@ -2,7 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Space_Grotesk, DM_Sans } from "next/font/google"
 import "./globals.css"
-
+import { Analytics } from "@vercel/analytics/next"
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   display: "swap",
@@ -37,6 +37,7 @@ html {
 }
         `}</style>
       </head>
+      <Analytics />
       <body className={`${spaceGrotesk.variable} ${dmSans.variable} antialiased`}>{children}</body>
     </html>
   )
