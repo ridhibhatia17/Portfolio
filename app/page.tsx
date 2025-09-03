@@ -111,71 +111,39 @@ function ShootingStar() {
   )
 }
 
-function MouseFollowLight() {
-  const lightRef = useRef<THREE.PointLight>(null!)
-  const sphereRef = useRef<THREE.Mesh>(null!)
-  const { mouse, viewport } = useThree()
-
-  useFrame(() => {
-    if (lightRef.current) {
-      lightRef.current.position.x = (mouse.x * viewport.width) / 2
-      lightRef.current.position.y = (mouse.y * viewport.height) / 2
-      lightRef.current.position.z = 3
-      if (sphereRef.current) {
-        sphereRef.current.position.copy(lightRef.current.position)
-      }
-    }
-  })
-
-  return (
-    <>
-      <pointLight
-        ref={lightRef}
-        intensity={10}
-        distance={50}
-        color="#A855F7"
-        decay={1.5}
-      />
-      <mesh ref={sphereRef}>
-        <sphereGeometry args={[0.15, 16, 16]} />
-        <meshBasicMaterial color="#A855F7" />
-      </mesh>
-    </>
-  )
-}
-
-// ===== Mouse Cursor Follower (UI Layer) =====
 function MouseFollower() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [isVisible, setIsVisible] = useState(false)
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     const updateMousePosition = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
-      setIsVisible(true)
-    }
+      setMousePosition({ x: e.clientX, y: e.clientY });
+      setIsVisible(true);
+    };
 
     const handleMouseLeave = () => {
-      setIsVisible(false)
-    }
+      setIsVisible(false);
+    };
 
-    window.addEventListener("mousemove", updateMousePosition)
-    document.addEventListener("mouseleave", handleMouseLeave)
+    window.addEventListener('mousemove', updateMousePosition);
+    document.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
-      window.removeEventListener("mousemove", updateMousePosition)
-      document.removeEventListener("mouseleave", handleMouseLeave)
-    }
-  }, [])
+      window.removeEventListener('mousemove', updateMousePosition);
+      document.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, []);
 
   return (
     <>
-      {/* Small white dot */}
+      {/* Main cursor */}
       <motion.div
-        className="fixed top-0 left-0 w-4 h-4 rounded-full bg-white pointer-events-none z-50 mix-blend-difference"
+        className="fixed top-0 left-0 w-4 h-4 pointer-events-none z-50 mix-blend-difference"
         animate={{
-          x: mousePosition.x - 8,
-          y: mousePosition.y - 8,
+          x: mousePosition.x - 12,
+          y: mousePosition.y - 12,
           opacity: isVisible ? 1 : 0,
         }}
         transition={{
@@ -183,29 +151,46 @@ function MouseFollower() {
           stiffness: 500,
           damping: 28,
         }}
-      />
+      >
+        <div className="w-full h-full rounded-full bg-white" />
+      </motion.div>
 
-      {/* Neon glowing circle (kept) */}
+      {/* Trailing glow */}
       <motion.div
-        className="fixed top-0 left-0 w-10 h-10 rounded-full pointer-events-none z-40"
+        className="fixed top-0 left-0 w-8 h-8 pointer-events-none z-40"
         animate={{
-          x: mousePosition.x - 20,
-          y: mousePosition.y - 20,
+          x: mousePosition.x - 16,
+          y: mousePosition.y - 16,
           opacity: isVisible ? 0.6 : 0,
         }}
         transition={{
           type: "spring",
-          stiffness: 120,
+          stiffness: 150,
           damping: 20,
         }}
       >
-        <div className="w-full h-full rounded-full bg-gradient-to-r from-purple-500 to-pink-500 opacity-50 blur-md" />
+        <div className="w-full h-full rounded-full bg-gradient-to-r from-purple-500 to-purple-900 opacity-50 blur-sm" />
+      </motion.div>
+
+      {/* Outer ring */}
+      <motion.div
+        className="fixed top-0 left-0 w-12 h-12 pointer-events-none z-30"
+        animate={{
+          x: mousePosition.x - 24,
+          y: mousePosition.y - 24,
+          opacity: isVisible ? 0.3 : 0,
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 80,
+          damping: 15,
+        }}
+      >
+        <div className="w-full h-full rounded-full border border-primary/30" />
       </motion.div>
     </>
-  )
+  );
 }
-
-// ===== 3D Scene =====
 function Scene3D() {
   return (
     <>
@@ -214,7 +199,6 @@ function Scene3D() {
       <Stars />
       <NebulaLight />
       <ShootingStar />
-      <MouseFollowLight />
       <OrbitControls enableZoom={false} enablePan={false} enableRotate={false} />
     </>
   )
