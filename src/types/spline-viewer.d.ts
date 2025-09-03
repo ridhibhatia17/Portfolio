@@ -5,7 +5,7 @@ declare global {
       'spline-viewer': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement> & {
           url?: string;
-          [key: string]: any;
+          [key: string]: unknown;
         },
         HTMLElement
       >;

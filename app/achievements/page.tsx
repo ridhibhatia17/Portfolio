@@ -101,7 +101,7 @@ export default function AchievementsPage() {
                 </h3>
                 <p className="text-purple-400 font-medium text-sm mb-4">1st Place Winner</p>
                 <p className="text-gray-400 text-sm leading-relaxed mb-4">
-                  Awarded a certificate for selecting an outstanding domain name "HUM TO CHALE PARDES," highlighting creativity
+                  Awarded a certificate for selecting an outstanding domain name &quot;HUM TO CHALE PARDES,&quot; highlighting creativity
                   and strategic thinking in competitive programming.
                 </p>
                 <div className="flex flex-wrap gap-2 mb-4">

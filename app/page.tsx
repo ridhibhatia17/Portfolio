@@ -31,6 +31,7 @@ import {
   Send,
   Menu,
   X,
+  LucideIcon
 } from "lucide-react"
 import Link from "next/link"
 import * as THREE from "three"
@@ -235,7 +236,7 @@ function SkillBar({
   icon: Icon,
   delay = 0,
   color,
-}: { skill: string; percentage: number; icon: any; delay?: number; color: string }) {
+}: { skill: string; percentage: number; icon: LucideIcon; delay?: number; color: string }) {
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {
@@ -505,7 +506,7 @@ export default function Portfolio() {
             </div>
             <div className="space-y-6">
               <p className="text-lg text-gray-300 leading-relaxed">
-                I'm a passionate Computer Science Engineering Student at Chitkara
+                I&apos;m a passionate Computer Science Engineering Student at Chitkara
                 University, graduating in May 2027. My journey
                 in technology is driven by curiosity and innovation, particularly in
                 the realms of web development.
@@ -603,7 +604,7 @@ export default function Portfolio() {
                   </h3>
                   <p className="text-purple-400 font-medium text-sm mb-4">1st Place Winner</p>
                   <p className="text-gray-400 text-sm leading-relaxed mb-4">
-                    Awarded a certificate for selecting an outstanding domain name "HUM TO CHALE PARDES," highlighting creativity
+                    Awarded a certificate for selecting an outstanding domain name &quot;HUM TO CHALE PARDES,&quot; highlighting creativity
                     and strategic thinking in competitive programming.
                   </p>
                   <div className="flex flex-wrap gap-2 mb-4">
@@ -978,11 +979,11 @@ export default function Portfolio() {
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold font-sans mb-6">
               <span className="bg-gradient-to-r from-purple-500 to-purple-900 bg-clip-text text-transparent">
-                Let's Connect
+                Let&apos;s Connect
               </span>
             </h2>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              Ready to collaborate on your next project? Let's build something amazing together
+              Ready to collaborate on your next project? Let&apos;s build something amazing together
             </p>
             <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-purple-900 mx-auto rounded-full mt-6"></div>
           </div>
@@ -991,9 +992,9 @@ export default function Portfolio() {
               <div>
                 <h3 className="text-2xl font-bold font-sans text-white mb-6">Get in Touch</h3>
                 <p className="text-gray-400 leading-relaxed mb-8">
-                  I'm always excited to discuss new opportunities, innovative projects, or just chat about technology.
-                  Whether you're looking for a collaborator on your next big idea or want to connect with a fellow
-                  developer, I'd love to hear from you!
+                  I&apos;m always excited to discuss new opportunities, innovative projects, or just chat about technology.
+                  Whether you&apos;re looking for a collaborator on your next big idea or want to connect with a fellow
+                  developer, I&apos;d love to hear from you!
                 </p>
               </div>
               <div className="space-y-6">
