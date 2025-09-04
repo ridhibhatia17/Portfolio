@@ -826,7 +826,7 @@ export default function Portfolio() {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-black to-purple-950">
+<section id="skills" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-black to-purple-950">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-sans mb-6">
@@ -839,53 +839,85 @@ export default function Portfolio() {
             </p>
             <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-purple-900 mx-auto rounded-full mt-6"></div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-            <div className="space-y-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <div className="p-6 bg-gray-900/50 rounded-lg border border-purple-500/20">
               <h3 className="text-xl sm:text-2xl font-bold font-sans text-foreground mb-6 flex items-center">
                 <Code className="mr-3 h-6 w-6 text-purple-400" />
                 Programming Languages
               </h3>
               <div className="space-y-6">
-                <SkillBar skill="Python" percentage={70} icon={Code} delay={100} color="bg-purple-500" />
+                <SkillBar skill="Python" percentage={60} icon={Code} delay={100} color="bg-purple-500" />
                 <SkillBar skill="JavaScript" percentage={85} icon={Globe} delay={200} color="bg-purple-600" />
                 <SkillBar skill="Java" percentage={80} icon={Cpu} delay={300} color="bg-purple-700" />
-                <SkillBar skill="C++" percentage={75} icon={Code} delay={400} color="bg-purple-800" />
+                <SkillBar skill="C++" percentage={80} icon={Code} delay={400} color="bg-purple-800" />
                 <SkillBar skill="C" percentage={70} icon={Code} delay={500} color="bg-purple-900" />
+                <SkillBar skill="PHP" percentage={50} icon={Code} delay={100} color="bg-purple-500" />
               </div>
             </div>
-            <div className="space-y-8">
+            <div className="p-6 bg-gray-900/50 rounded-lg border border-purple-500/20">
               <h3 className="text-xl sm:text-2xl font-bold font-sans text-foreground mb-6 flex items-center">
                 <Globe className="mr-3 h-6 w-6 text-purple-400" />
-                Web Technologies
+                Frontend Technologies
               </h3>
               <div className="space-y-6">
-                <SkillBar skill="React.js" percentage={85} icon={Globe} delay={100} color="bg-purple-500" />
+                <SkillBar skill="React.js" percentage={75} icon={Globe} delay={100} color="bg-purple-500" />
                 <SkillBar skill="Node.js" percentage={80} icon={Server} delay={200} color="bg-purple-600" />
-                <SkillBar skill="HTML/CSS" percentage={90} icon={Palette} delay={300} color="bg-purple-700" />
-                <SkillBar skill="PHP" percentage={75} icon={Server} delay={400} color="bg-purple-800" />
-                <SkillBar skill="Flask" percentage={70} icon={Server} delay={500} color="bg-purple-900" />
+                <SkillBar skill="HTML/CSS" percentage={95} icon={Palette} delay={300} color="bg-purple-700" />
+                <SkillBar skill="Next.js" percentage={60} icon={Server} delay={400} color="bg-purple-800" />
+                <SkillBar skill="TailwindCSS" percentage={90} icon={Server} delay={500} color="bg-purple-900" />
               </div>
             </div>
-            <div className="space-y-8">
+            <div className="p-6 bg-gray-900/50 rounded-lg border border-purple-500/20">
+              <h3 className="text-xl sm:text-2xl font-bold font-sans text-foreground mb-6 flex items-center">
+                <Globe className="mr-3 h-6 w-6 text-purple-400" />
+                Backend & Databases
+              </h3>
+              <div className="space-y-6">
+                <SkillBar skill="Node.js" percentage={75} icon={Globe} delay={100} color="bg-purple-500" />
+                <SkillBar skill="PHP" percentage={50} icon={Server} delay={200} color="bg-purple-600" />
+                <SkillBar skill="MySQL" percentage={75} icon={Palette} delay={300} color="bg-purple-700" />
+                <SkillBar skill="MongoDB" percentage={75} icon={Server} delay={400} color="bg-purple-800" />
+              </div>
+            </div>
+            <div className="p-6 bg-gray-900/50 rounded-lg border border-purple-500/20">
               <h3 className="text-xl sm:text-2xl font-bold font-sans text-foreground mb-6 flex items-center">
                 <Brain className="mr-3 h-6 w-6 text-purple-400" />
-                AI/ML & Computer Vision
+                AI/ML & Data Science
               </h3>
               <div className="space-y-6">
-                <SkillBar skill="TensorFlow" percentage={80} icon={Brain} delay={100} color="bg-purple-500" />
-                <SkillBar skill="OpenCV" percentage={75} icon={Brain} delay={200} color="bg-purple-600" />
-                <SkillBar skill="Machine Learning" percentage={85} icon={Cpu} delay={300} color="bg-purple-700" />
+                <SkillBar skill="TensorFlow" percentage={60} icon={Brain} delay={100} color="bg-purple-500" />
+                <SkillBar skill="OpenCV" percentage={70} icon={Brain} delay={200} color="bg-purple-600" />
+                <SkillBar skill="Machine Learning" percentage={60} icon={Cpu} delay={300} color="bg-purple-700" />
+                <SkillBar skill="Deep Learning" percentage={60} icon={Cpu} delay={300} color="bg-purple-800" />
+                <SkillBar skill="Google Colab" percentage={80} icon={Cpu} delay={300} color="bg-purple-900" />
+                <SkillBar skill="Flask" percentage={60} icon={Cpu} delay={300} color="bg-purple-500" />
               </div>
             </div>
-            <div className="space-y-8">
+            <div className="p-6 bg-gray-900/50 rounded-lg border border-purple-500/20">
               <h3 className="text-xl sm:text-2xl font-bold font-sans text-foreground mb-6 flex items-center">
                 <Database className="mr-3 h-6 w-6 text-purple-400" />
-                Databases & Tools
+                AI Tools & Platforms
               </h3>
               <div className="space-y-6">
-                <SkillBar skill="MongoDB" percentage={80} icon={Database} delay={100} color="bg-purple-500" />
-                <SkillBar skill="MySQL" percentage={85} icon={Database} delay={200} color="bg-purple-600" />
-                <SkillBar skill="Git/GitHub" percentage={90} icon={Code} delay={300} color="bg-purple-700" />
+                <SkillBar skill="Google Colab" percentage={80} icon={Database} delay={100} color="bg-purple-500" />
+                <SkillBar skill="ChatGPT" percentage={95} icon={Database} delay={200} color="bg-purple-600" />
+                <SkillBar skill="GitHub Copilot" percentage={80} icon={Code} delay={300} color="bg-purple-700" />
+                <SkillBar skill="Gemini" percentage={90} icon={Cpu} delay={300} color="bg-purple-800" />
+                <SkillBar skill="V0 by Vercel" percentage={90} icon={Cpu} delay={300} color="bg-purple-900" />
+                <SkillBar skill="Grok" percentage={95} icon={Cpu} delay={300} color="bg-purple-500" />
+                <SkillBar skill="Cursor" percentage={85} icon={Database} delay={200} color="bg-purple-600" />
+              </div>
+            </div>
+            <div className="p-6 bg-gray-900/50 rounded-lg border border-purple-500/20">
+              <h3 className="text-xl sm:text-2xl font-bold font-sans text-foreground mb-6 flex items-center">
+                <Database className="mr-3 h-6 w-6 text-purple-400" />
+                Soft Skills
+              </h3>
+              <div className="space-y-6">
+                <SkillBar skill="Leadership" percentage={90} icon={Database} delay={100} color="bg-purple-500" />
+                <SkillBar skill="Team Management" percentage={85} icon={Database} delay={200} color="bg-purple-600" />
+                <SkillBar skill="Presentation" percentage={75} icon={Code} delay={300} color="bg-purple-700" />
+                <SkillBar skill="Problem Solving" percentage={80} icon={Cpu} delay={300} color="bg-purple-800" />
               </div>
             </div>
           </div>
