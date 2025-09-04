@@ -46,8 +46,11 @@ function Stars({ count = 5000 }: { count?: number }) {
   )
 
   useEffect(() => {
-    const positions = new Float32Array(count! * 3)
-    for (let i = 0; i < count!; i++) {
+    // Adjust star count based on screen size
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
+    const adjustedCount = isMobile ? count / 2 : count; // Reduce stars on mobile
+    const positions = new Float32Array(adjustedCount * 3)
+    for (let i = 0; i < adjustedCount; i++) {
       positions[i * 3] = (Math.random() - 0.5) * 200
       positions[i * 3 + 1] = (Math.random() - 0.5) * 200
       positions[i * 3 + 2] = (Math.random() - 0.5) * 200
@@ -56,7 +59,7 @@ function Stars({ count = 5000 }: { count?: number }) {
   }, [geom, count])
 
   useFrame(() => {
-    geom.rotateY(0.0005) // slow galaxy rotation
+    geom.rotateY(0.0005) // Slow galaxy rotation
   })
 
   return <points geometry={geom} material={material} />
@@ -138,9 +141,9 @@ function MouseFollower() {
 
   return (
     <>
-      {/* Main cursor */}
+      {/* Main cursor - hidden on mobile */}
       <motion.div
-        className="fixed top-0 left-0 w-4 h-4 pointer-events-none z-50 mix-blend-difference"
+        className="fixed top-0 left-0 w-4 h-4 pointer-events-none z-50 mix-blend-difference hidden sm:block"
         animate={{
           x: mousePosition.x - 12,
           y: mousePosition.y - 12,
@@ -157,7 +160,7 @@ function MouseFollower() {
 
       {/* Trailing glow */}
       <motion.div
-        className="fixed top-0 left-0 w-8 h-8 pointer-events-none z-40"
+        className="fixed top-0 left-0 w-8 h-8 pointer-events-none z-40 hidden sm:block"
         animate={{
           x: mousePosition.x - 16,
           y: mousePosition.y - 16,
@@ -174,7 +177,7 @@ function MouseFollower() {
 
       {/* Outer ring */}
       <motion.div
-        className="fixed top-0 left-0 w-12 h-12 pointer-events-none z-30"
+        className="fixed top-0 left-0 w-12 h-12 pointer-events-none z-30 hidden sm:block"
         animate={{
           x: mousePosition.x - 24,
           y: mousePosition.y - 24,
@@ -191,12 +194,13 @@ function MouseFollower() {
     </>
   );
 }
+
 function Scene3D() {
   return (
     <>
       <color attach="background" args={["#000000"]} />
       <ambientLight intensity={0.2} />
-      <Stars />
+      <Stars count={typeof window !== 'undefined' && window.innerWidth < 640 ? 2500 : 5000} />
       <NebulaLight />
       <ShootingStar />
       <OrbitControls enableZoom={false} enablePan={false} enableRotate={false} />
@@ -227,9 +231,9 @@ function SkillBar({
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <Icon className="h-5 w-5 text-purple-400" />
-          <span className="text-foreground font-medium font-serif">{skill}</span>
+          <span className="text-foreground font-medium font-serif text-sm sm:text-base">{skill}</span>
         </div>
-        <span className="text-purple-400 font-bold font-serif">{percentage}%</span>
+        <span className="text-purple-400 font-bold font-serif text-sm sm:text-base">{percentage}%</span>
       </div>
       <div className="w-full bg-gray-800/50 rounded-full h-2">
         <div
@@ -313,28 +317,28 @@ export default function Portfolio() {
     <div className="min-h-screen bg-black">
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-purple-500/20">
-        <div className="max-w-7xl mx-auto px-6 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-purple-900 bg-clip-text text-transparent">
               RB
             </div>
-            <div className="hidden md:flex items-center space-x-8">
-              <a href="#about" className="text-gray-300 hover:text-purple-300 transition-colors">
+            <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
+              <a href="#about" className="text-gray-300 hover:text-purple-300 transition-colors text-sm lg:text-base">
                 About
               </a>
-              <a href="#achievements" className="text-gray-300 hover:text-purple-300 transition-colors">
+              <a href="#achievements" className="text-gray-300 hover:text-purple-300 transition-colors text-sm lg:text-base">
                 Achievements
               </a>
-              <a href="#projects" className="text-gray-300 hover:text-purple-300 transition-colors">
+              <a href="#projects" className="text-gray-300 hover:text-purple-300 transition-colors text-sm lg:text-base">
                 Projects
               </a>
-              <a href="#skills" className="text-gray-300 hover:text-purple-300 transition-colors">
+              <a href="#skills" className="text-gray-300 hover:text-purple-300 transition-colors text-sm lg:text-base">
                 Skills
               </a>
-              <a href="#education" className="text-gray-300 hover:text-purple-300 transition-colors">
+              <a href="#education" className="text-gray-300 hover:text-purple-300 transition-colors text-sm lg:text-base">
                 Education
               </a>
-              <a href="#contact" className="text-gray-300 hover:text-purple-300 transition-colors">
+              <a href="#contact" className="text-gray-300 hover:text-purple-300 transition-colors text-sm lg:text-base">
                 Contact
               </a>
             </div>
@@ -347,23 +351,23 @@ export default function Portfolio() {
           </div>
           {isMenuOpen && (
             <div className="md:hidden mt-4 pb-4 border-t border-purple-500/20">
-              <div className="flex flex-col space-y-4 pt-4">
-                <a href="#about" className="text-gray-300 hover:text-purple-300" onClick={() => setIsMenuOpen(false)}>
+              <div className="flex flex-col space-y-4 pt-4 text-center">
+                <a href="#about" className="text-gray-300 hover:text-purple-300 text-base" onClick={() => setIsMenuOpen(false)}>
                   About
                 </a>
-                <a href="#achievements" className="text-gray-300 hover:text-purple-300" onClick={() => setIsMenuOpen(false)}>
+                <a href="#achievements" className="text-gray-300 hover:text-purple-300 text-base" onClick={() => setIsMenuOpen(false)}>
                   Achievements
                 </a>
-                <a href="#projects" className="text-gray-300 hover:text-purple-300" onClick={() => setIsMenuOpen(false)}>
+                <a href="#projects" className="text-gray-300 hover:text-purple-300 text-base" onClick={() => setIsMenuOpen(false)}>
                   Projects
                 </a>
-                <a href="#skills" className="text-gray-300 hover:text-purple-300" onClick={() => setIsMenuOpen(false)}>
+                <a href="#skills" className="text-gray-300 hover:text-purple-300 text-base" onClick={() => setIsMenuOpen(false)}>
                   Skills
                 </a>
-                <a href="#education" className="text-gray-300 hover:text-purple-300" onClick={() => setIsMenuOpen(false)}>
+                <a href="#education" className="text-gray-300 hover:text-purple-300 text-base" onClick={() => setIsMenuOpen(false)}>
                   Education
                 </a>
-                <a href="#contact" className="text-gray-300 hover:text-purple-300" onClick={() => setIsMenuOpen(false)}>
+                <a href="#contact" className="text-gray-300 hover:text-purple-300 text-base" onClick={() => setIsMenuOpen(false)}>
                   Contact
                 </a>
               </div>
@@ -373,7 +377,7 @@ export default function Portfolio() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6">
         <div className="absolute inset-0 w-full h-full z-0">
           <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
             <Suspense fallback={null}>
@@ -381,25 +385,25 @@ export default function Portfolio() {
             </Suspense>
           </Canvas>
         </div>
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto pointer-events-none">
+        <div className="relative z-10 text-center max-w-4xl mx-auto pointer-events-none">
           <div className="space-y-6 pointer-events-auto">
-            <h1 className="text-5xl md:text-7xl font-bold font-sans">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-sans">
               <span className="bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent">
                 Ridhi Bhatia
               </span>
             </h1>
-            <div className="text-xl md:text-2xl text-gray-300 space-y-2">
+            <div className="text-lg sm:text-xl md:text-2xl text-gray-300 space-y-2">
               <p className="font-medium">Computer Science Student</p>
               <p className="text-purple-400">Full Stack Developer • AI/ML Enthusiast</p>
             </div>
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
               Welcome to My Digital Playground - Exploring the intersection of AI and web development through innovative
               solutions and hackathon victories.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6 sm:pt-8">
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105 cursor-pointer"
+                className="bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white px-6 sm:px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105 cursor-pointer text-sm sm:text-base"
                 onClick={() => {
                   const link = document.createElement("a")
                   link.href = "/resume/Ridhi_Bhatia_Resume.pdf"
@@ -413,7 +417,7 @@ export default function Portfolio() {
               <Button
                 variant="outline"
                 size="lg"
-                className="border-purple-500 text-purple-400 hover:bg-purple-500/10 px-8 py-3 rounded-full transition-all duration-300 bg-transparent cursor-pointer"
+                className="border-purple-500 text-purple-400 hover:bg-purple-500/10 px-6 sm:px-8 py-3 rounded-full transition-all duration-300 bg-transparent cursor-pointer text-sm sm:text-base"
                 onClick={() => {
                   document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })
                 }}
@@ -422,7 +426,7 @@ export default function Portfolio() {
                 Contact Me
               </Button>
             </div>
-            <div className="flex items-center justify-center space-x-6 pt-8">
+            <div className="flex items-center justify-center space-x-6 pt-6 sm:pt-8">
               <a
                 href="https://github.com/ridhibhatia17"
                 target="_blank"
@@ -451,7 +455,7 @@ export default function Portfolio() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="relative py-20 px-6 bg-muted/30">
+      <section id="about" className="relative py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-muted/30">
         <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
           <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
             <Suspense fallback={null}>
@@ -459,35 +463,33 @@ export default function Portfolio() {
             </Suspense>
           </Canvas>
         </div>
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold font-sans mb-6">
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-sans mb-6">
               <span className="bg-gradient-to-r from-purple-500 to-purple-900 bg-clip-text text-transparent">
                 About Me
               </span>
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-purple-900 mx-auto rounded-full"></div>
           </div>
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <div className="w-130 h-127 mx-auto md:mx-0 rounded-full bg-gradient-to-br from-purple-500/20 to-purple-900/20 border-2 border-purple-500/30 flex items-center justify-center">
-                <div className="w-120 h-115 rounded-full overflow-hidden">
-                  <img
-                    src="/images/profile1.jpg"
-                    alt="Profile picture of Ridhi Bhatia"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+          <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-center">
+            <div className="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 mx-auto rounded-full bg-gradient-to-br from-purple-500/20 to-purple-900/20 border-2 border-purple-500/30 flex items-center justify-center">
+              <div className="w-44 h-44 sm:w-60 sm:h-60 md:w-72 md:h-72 rounded-full overflow-hidden">
+                <img
+                  src="/images/profile1.jpg"
+                  alt="Profile picture of Ridhi Bhatia"
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
-            <div className="space-y-6">
-              <p className="text-lg text-gray-300 leading-relaxed">
+            <div className="space-y-6 flex-1">
+              <p className="text-base sm:text-lg text-gray-300 leading-relaxed">
                 I&apos;m a passionate Computer Science Engineering Student at Chitkara
                 University, graduating in May 2027. My journey
                 in technology is driven by curiosity and innovation, particularly in
                 the realms of web development.
               </p>
-              <p className="text-lg text-gray-300 leading-relaxed">
+              <p className="text-base sm:text-lg text-gray-300 leading-relaxed">
                 As a hackathon champion, I thrive on transforming complex problems
                 into elegant solutions. My experience spans from developing
                 AI-powered healthcare applications to creating comprehensive web
@@ -495,11 +497,11 @@ export default function Portfolio() {
               </p>
               <div className="grid grid-cols-2 gap-4 pt-4">
                 <div className="text-center p-4 bg-gray-900/50 rounded-lg border border-purple-500/20">
-                  <div className="text-2xl font-bold text-purple-400">8.59</div>
+                  <div className="text-xl sm:text-2xl font-bold text-purple-400">8.59</div>
                   <div className="text-sm text-gray-400">CGPA</div>
                 </div>
                 <div className="text-center p-4 bg-gray-900/50 rounded-lg border border-purple-500/20">
-                  <div className="text-2xl font-bold text-purple-400">2027</div>
+                  <div className="text-xl sm:text-2xl font-bold text-purple-400">2027</div>
                   <div className="text-sm text-gray-400">Graduation</div>
                 </div>
               </div>
@@ -509,34 +511,34 @@ export default function Portfolio() {
       </section>
 
       {/* Achievements Section */}
-      <section id="achievements" className="py-20 px-6 bg-gradient-to-br from-black to-purple-950">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold font-sans mb-6">
+      <section id="achievements" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-black to-purple-950">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-sans mb-6">
               <span className="bg-gradient-to-r from-purple-500 to-purple-900 bg-clip-text text-transparent">
                 Achievements & Recognition
               </span>
             </h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
               Turning Ideas into Reality - A track record of innovation and excellence in competitive programming
             </p>
             <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-purple-900 mx-auto rounded-full mt-6"></div>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             <Card className="group bg-gray-900/50 border-purple-500/20 hover:border-purple-500/40 transition-all duration-500 transform hover:scale-105 hover:rotate-1 overflow-hidden">
               <CardContent className="p-0">
-                <div className="relative h-48 bg-gradient-to-br from-yellow-600/20 to-orange-600/20 flex items-center justify-center">
+                <div className="relative h-48 sm:h-56 bg-gradient-to-br from-yellow-600/20 to-orange-600/20 flex items-center justify-center">
                   <Image
                     src="/images/ieee-achievement.jpg"
                     alt="IEEE SSH 2024 Award"
-                    width={380}
-                    height={800}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-contain group-hover:scale-110 transition-transform duration-300"
                   />
                 </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold font-sans text-white mb-3 group-hover:text-purple-300 transition-colors">
-                    <br></br><br></br>IEEE SSH 2024
+                <div className="p-4 sm:p-6">
+                  <h3 className="text-lg sm:text-xl font-bold font-sans text-white mb-3 group-hover:text-purple-300 transition-colors">
+                    IEEE SSH 2024
                   </h3>
                   <p className="text-purple-400 font-medium text-sm mb-4">1st Place - Healthcare Track</p>
                   <p className="text-gray-400 text-sm leading-relaxed mb-4">
@@ -554,7 +556,7 @@ export default function Portfolio() {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="w-full border-purple-500/30 text-purple-400 hover:bg-purple-500/10 group-hover:border-purple-400 bg-transparent cursor-pointer"
+                      className="w-full border-purple-500/30 text-purple-400 hover:bg-purple-500/10 group-hover:border-purple-400 bg-transparent cursor-pointer text-xs sm:text-sm"
                     >
                       <ExternalLink className="mr-2 h-4 w-4" />
                       View Details
@@ -565,18 +567,18 @@ export default function Portfolio() {
             </Card>
             <Card className="group bg-gray-900/50 border-purple-500/20 hover:border-purple-500/40 transition-all duration-500 transform hover:scale-105 hover:-rotate-1 overflow-hidden">
               <CardContent className="p-0">
-                <div className="relative h-48 bg-gradient-to-br from-purple-600/20 to-purple-900/20 flex items-center justify-center">
+                <div className="relative h-48 sm:h-56 bg-gradient-to-br from-purple-600/20 to-purple-900/20 flex items-center justify-center">
                   <Image
                     src="/images/byte-tourney1.jpg"
                     alt="Byte Tourney 2024 Award"
-                    width={360}
-                    height={100}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-contain group-hover:scale-110 transition-transform duration-300"
                   />
                 </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold font-sans text-white mb-3 group-hover:text-purple-300 transition-colors">
-                    <br></br><br></br>Byte Tourney 2024
+                <div className="p-4 sm:p-6">
+                  <h3 className="text-lg sm:text-xl font-bold font-sans text-white mb-3 group-hover:text-purple-300 transition-colors">
+                    Byte Tourney 2024
                   </h3>
                   <p className="text-purple-400 font-medium text-sm mb-4">1st Place Winner</p>
                   <p className="text-gray-400 text-sm leading-relaxed mb-4">
@@ -591,7 +593,7 @@ export default function Portfolio() {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="w-full border-purple-500/30 text-purple-400 hover:bg-purple-500/10 group-hover:border-purple-400 bg-transparent cursor-pointer"
+                      className="w-full border-purple-500/30 text-purple-400 hover:bg-purple-500/10 group-hover:border-purple-400 bg-transparent cursor-pointer text-xs sm:text-sm"
                     >
                       <ExternalLink className="mr-2 h-4 w-4" />
                       View Details
@@ -602,18 +604,18 @@ export default function Portfolio() {
             </Card>
             <Card className="group bg-gray-900/50 border-purple-500/20 hover:border-purple-500/40 transition-all duration-500 transform hover:scale-105 hover:rotate-1 overflow-hidden">
               <CardContent className="p-0">
-                <div className="relative h-48 bg-gradient-to-br from-purple-600/20 to-purple-900/20 flex items-center justify-center">
+                <div className="relative h-48 sm:h-56 bg-gradient-to-br from-purple-600/20 to-purple-900/20 flex items-center justify-center">
                   <Image
                     src="/images/silverzone-olympiad.jpg"
                     alt="SilverZone Olympiad Award"
-                    width={360}
-                    height={260}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-contain group-hover:scale-110 transition-transform duration-300"
                   />
                 </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold font-sans text-white mb-3 group-hover:text-purple-300 transition-colors">
-                    <br></br><br></br>SilverZone Olympiad
+                <div className="p-4 sm:p-6">
+                  <h3 className="text-lg sm:text-xl font-bold font-sans text-white mb-3 group-hover:text-purple-300 transition-colors">
+                    SilverZone Olympiad
                   </h3>
                   <p className="text-purple-400 font-medium text-sm mb-4">1st Place - Mathematics</p>
                   <p className="text-gray-400 text-sm leading-relaxed mb-4">
@@ -628,7 +630,7 @@ export default function Portfolio() {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="w-full border-purple-500/30 text-purple-400 hover:bg-purple-500/10 group-hover:border-purple-400 bg-transparent cursor-pointer"
+                      className="w-full border-purple-500/30 text-purple-400 hover:bg-purple-500/10 group-hover:border-purple-400 bg-transparent cursor-pointer text-xs sm:text-sm"
                     >
                       <ExternalLink className="mr-2 h-4 w-4" />
                       View Details
@@ -638,22 +640,22 @@ export default function Portfolio() {
               </CardContent>
             </Card>
           </div>
-          <div className="mt-16 text-center">
-            <a href="/achievements" rel="noopener noreferrer">
+          <div className="mt-12 sm:mt-16 text-center">
+            <Link href="/achievements">
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105 cursor-pointer"
+                className="bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white px-6 sm:px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105 cursor-pointer text-sm sm:text-base"
               >
                 <Trophy className="mr-2 h-5 w-5" />
                 View All Achievements
               </Button>
-            </a>
+            </Link>
           </div>
         </div>
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="relative py-20 px-6 bg-gradient-to-br from-black to-purple-950">
+      <section id="projects" className="relative py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-black to-purple-950">
         <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
           <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
             <Suspense fallback={null}>
@@ -661,31 +663,33 @@ export default function Portfolio() {
             </Suspense>
           </Canvas>
         </div>
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold font-sans mb-6">
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-sans mb-6">
               <span className="bg-gradient-to-r from-purple-500 to-purple-900 bg-clip-text text-transparent">
                 Featured Projects
               </span>
             </h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
               Where Code Meets Creativity - Innovative solutions that make a
               real-world impact
             </p>
             <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-purple-900 mx-auto rounded-full mt-6"></div>
           </div>
-          <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             <Card className="group bg-gray-900/50 border-purple-500/20 hover:border-purple-500/40 transition-all duration-500 transform hover:scale-105 hover:rotate-1 overflow-hidden">
               <CardContent className="p-0">
-                <Image
-                  src="/images/Derma.jpg"
-                  alt="DermaSense.ai Project"
-                  width={380}
-                  height={800}
-                  className="object-contain group-hover:scale-110 transition-transform duration-300"
-                />
-                <div className="p-6">
-                  <h3 className="text-xl font-bold font-sans text-white mb-3 group-hover:text-purple-300 transition-colors">
+                <div className="relative h-48 sm:h-56">
+                  <Image
+                    src="/images/Derma.jpg"
+                    alt="DermaSense.ai Project"
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-contain group-hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
+                <div className="p-4 sm:p-6">
+                  <h3 className="text-lg sm:text-xl font-bold font-sans text-white mb-3 group-hover:text-purple-300 transition-colors">
                     DermaSense.ai
                   </h3>
                   <p className="text-gray-400 text-sm leading-relaxed mb-4">
@@ -709,10 +713,10 @@ export default function Portfolio() {
                       href="https://github.com/ridhibhatia17"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 bg-gray-900/50 text-gray-400 rounded"
+                      className="flex items-center gap-2 bg-gray-900/50 text-gray-400 rounded text-xs sm:text-sm"
                     >
                       <Github className="h-5 w-5" />
-                      <span className="text-sm">Code</span>
+                      <span>Code</span>
                     </a>
                   </div>
                 </div>
@@ -720,15 +724,17 @@ export default function Portfolio() {
             </Card>
             <Card className="group bg-gray-900/50 border-purple-500/20 hover:border-purple-500/40 transition-all duration-500 transform hover:scale-105 hover:rotate-1 overflow-hidden">
               <CardContent className="p-0">
-                <Image
-                  src="/images/MedEase1.jpg"
-                  alt="MedEase Healthcare Platform"
-                  width={380}
-                  height={800}
-                  className="object-contain group-hover:scale-110 transition-transform duration-300"
-                />
-                <div className="p-6">
-                  <h3 className="text-xl font-bold font-sans text-white mb-3 group-hover:text-purple-300 transition-colors">
+                <div className="relative h-48 sm:h-56">
+                  <Image
+                    src="/images/MedEase1.jpg"
+                    alt="MedEase Healthcare Platform"
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-contain group-hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
+                <div className="p-4 sm:p-6">
+                  <h3 className="text-lg sm:text-xl font-bold font-sans text-white mb-3 group-hover:text-purple-300 transition-colors">
                     MedEase Healthcare Platform
                   </h3>
                   <p className="text-gray-400 text-sm leading-relaxed mb-4">
@@ -752,10 +758,10 @@ export default function Portfolio() {
                       href="https://github.com/ridhibhatia17/healthcare"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 bg-gray-900/50 text-gray-400 rounded"
+                      className="flex items-center gap-2 bg-gray-900/50 text-gray-400 rounded text-xs sm:text-sm"
                     >
                       <Github className="h-5 w-5" />
-                      <span className="text-sm">Code</span>
+                      <span>Code</span>
                     </a>
                   </div>
                 </div>
@@ -763,15 +769,17 @@ export default function Portfolio() {
             </Card>
             <Card className="group bg-gray-900/50 border-purple-500/20 hover:border-purple-500/40 transition-all duration-500 transform hover:scale-105 hover:rotate-1 overflow-hidden">
               <CardContent className="p-0">
-                <Image
-                  src="/images/saarthi.jpg"
-                  alt="Saarthi"
-                  width={700}
-                  height={800}
-                  className="object-contain group-hover:scale-110 transition-transform duration-300"
-                />
-                <div className="p-6">
-                  <h3 className="text-xl font-bold font-sans text-white mb-3 group-hover:text-purple-300 transition-colors">
+                <div className="relative h-48 sm:h-56">
+                  <Image
+                    src="/images/saarthi.jpg"
+                    alt="Saarthi"
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-contain group-hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
+                <div className="p-4 sm:p-6">
+                  <h3 className="text-lg sm:text-xl font-bold font-sans text-white mb-3 group-hover:text-purple-300 transition-colors">
                     Saarthi
                   </h3>
                   <p className="text-gray-400 text-sm leading-relaxed mb-4">
@@ -795,46 +803,46 @@ export default function Portfolio() {
                       href="https://github.com/ridhibhatia17/Saarthi-Travel-And-Tour-Website-"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 bg-gray-900/50 text-gray-400 rounded"
+                      className="flex items-center gap-2 bg-gray-900/50 text-gray-400 rounded text-xs sm:text-sm"
                     >
                       <Github className="h-5 w-5" />
-                      <span className="text-sm">Code</span>
+                      <span>Code</span>
                     </a>
                   </div>
                 </div>
               </CardContent>
             </Card>
           </div>
-          <div className="mt-16 text-center relative z-10">
-            <a href="/projects" rel="noopener noreferrer">
+          <div className="mt-12 sm:mt-16 text-center relative z-10">
+            <Link href="/projects">
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105 cursor-pointer"
+                className="bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white px-6 sm:px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105 cursor-pointer text-sm sm:text-base"
               >
                 View All Projects
               </Button>
-            </a>
+            </Link>
           </div>
         </div>
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="py-20 bg-gradient-to-br from-black to-purple-950">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold font-sans mb-6">
+      <section id="skills" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-black to-purple-950">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-sans mb-6">
               <span className="bg-gradient-to-r from-purple-500 to-purple-900 bg-clip-text text-transparent">
                 Technical Skills
               </span>
             </h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto font-serif">
+            <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-3xl mx-auto font-serif">
               Mastering the technologies that power modern applications
             </p>
             <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-purple-900 mx-auto rounded-full mt-6"></div>
           </div>
-          <div className="grid lg:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             <div className="space-y-8">
-              <h3 className="text-2xl font-bold font-sans text-foreground mb-6 flex items-center">
+              <h3 className="text-xl sm:text-2xl font-bold font-sans text-foreground mb-6 flex items-center">
                 <Code className="mr-3 h-6 w-6 text-purple-400" />
                 Programming Languages
               </h3>
@@ -847,7 +855,7 @@ export default function Portfolio() {
               </div>
             </div>
             <div className="space-y-8">
-              <h3 className="text-2xl font-bold font-sans text-foreground mb-6 flex items-center">
+              <h3 className="text-xl sm:text-2xl font-bold font-sans text-foreground mb-6 flex items-center">
                 <Globe className="mr-3 h-6 w-6 text-purple-400" />
                 Web Technologies
               </h3>
@@ -860,7 +868,7 @@ export default function Portfolio() {
               </div>
             </div>
             <div className="space-y-8">
-              <h3 className="text-2xl font-bold font-sans text-foreground mb-6 flex items-center">
+              <h3 className="text-xl sm:text-2xl font-bold font-sans text-foreground mb-6 flex items-center">
                 <Brain className="mr-3 h-6 w-6 text-purple-400" />
                 AI/ML & Computer Vision
               </h3>
@@ -871,7 +879,7 @@ export default function Portfolio() {
               </div>
             </div>
             <div className="space-y-8">
-              <h3 className="text-2xl font-bold font-sans text-foreground mb-6 flex items-center">
+              <h3 className="text-xl sm:text-2xl font-bold font-sans text-foreground mb-6 flex items-center">
                 <Database className="mr-3 h-6 w-6 text-purple-400" />
                 Databases & Tools
               </h3>
@@ -886,7 +894,7 @@ export default function Portfolio() {
       </section>
 
       {/* Education Section */}
-      <section id="education" className="relative py-20 px-6 bg-gradient-to-br from-gray-900 to-purple-950">
+      <section id="education" className="relative py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-900 to-purple-950">
         <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
           <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
             <Suspense fallback={null}>
@@ -894,47 +902,47 @@ export default function Portfolio() {
             </Suspense>
           </Canvas>
         </div>
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold font-sans mb-6">
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-sans mb-6">
               <span className="bg-gradient-to-r from-purple-500 to-purple-900 bg-clip-text text-transparent">
                 Education
               </span>
             </h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
               Building a strong foundation in Computer Science and Engineering
             </p>
             <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-purple-900 mx-auto rounded-full mt-6"></div>
           </div>
           <div className="max-w-4xl mx-auto">
             <Card className="bg-gray-900/50 border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 transform hover:scale-105">
-              <CardContent className="p-8">
+              <CardContent className="p-6 sm:p-8">
                 <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
-                  <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-900 rounded-full flex items-center justify-center flex-shrink-0">
-                    <GraduationCap className="h-10 w-10 text-white" />
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-purple-500 to-purple-900 rounded-full flex items-center justify-center flex-shrink-0">
+                    <GraduationCap className="h-8 w-8 sm:h-10 sm:w-10 text-white" />
                   </div>
                   <div className="flex-1 space-y-4">
                     <div>
-                      <h3 className="text-2xl font-bold font-sans text-white mb-2">
+                      <h3 className="text-xl sm:text-2xl font-bold font-sans text-white mb-2">
                         Bachelor of Engineering - Computer Science
                       </h3>
-                      <p className="text-purple-400 font-medium text-lg">
+                      <p className="text-purple-400 font-medium text-base sm:text-lg">
                         Chitkara University
                       </p>
                     </div>
-                    <div className="grid md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="flex items-center space-x-2">
                         <Calendar className="h-5 w-5 text-purple-400" />
-                        <span className="text-gray-300">
+                        <span className="text-gray-300 text-sm sm:text-base">
                           Expected Graduation: May 2027
                         </span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <Trophy className="h-5 w-5 text-purple-400" />
-                        <span className="text-gray-300">CGPA: 8.59/10</span>
+                        <span className="text-gray-300 text-sm sm:text-base">CGPA: 8.59/10</span>
                       </div>
                     </div>
-                    <p className="text-gray-400 leading-relaxed">
+                    <p className="text-gray-400 text-sm sm:text-base leading-relaxed">
                       Pursuing a comprehensive education in Computer Science with
                       focus on software engineering, artificial intelligence, and web
                       technologies. Actively participating in hackathons and
@@ -950,24 +958,24 @@ export default function Portfolio() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 px-6 bg-gradient-to-br from-black to-purple-950">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold font-sans mb-6">
+      <section id="contact" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-black to-purple-950">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-sans mb-6">
               <span className="bg-gradient-to-r from-purple-500 to-purple-900 bg-clip-text text-transparent">
                 Let&apos;s Connect
               </span>
             </h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
               Ready to collaborate on your next project? Let&apos;s build something amazing together
             </p>
             <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-purple-900 mx-auto rounded-full mt-6"></div>
           </div>
-          <div className="grid lg:grid-cols-2 gap-12">
-            <div className="space-y-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
+            <div className="space-y-6 sm:space-y-8">
               <div>
-                <h3 className="text-2xl font-bold font-sans text-white mb-6">Get in Touch</h3>
-                <p className="text-gray-400 leading-relaxed mb-8">
+                <h3 className="text-xl sm:text-2xl font-bold font-sans text-white mb-6">Get in Touch</h3>
+                <p className="text-gray-400 text-sm sm:text-base leading-relaxed mb-8">
                   I&apos;m always excited to discuss new opportunities, innovative projects, or just chat about technology.
                   Whether you&apos;re looking for a collaborator on your next big idea or want to connect with a fellow
                   developer, I&apos;d love to hear from you!
@@ -979,10 +987,10 @@ export default function Portfolio() {
                     <Mail className="h-6 w-6 text-white" />
                   </div>
                   <div>
-                    <p className="text-white font-medium">Email</p>
+                    <p className="text-white font-medium text-sm sm:text-base">Email</p>
                     <a
                       href="mailto:ridhbht4@gmail.com"
-                      className="text-purple-400 hover:text-purple-300 transition-colors cursor-pointer underline decoration-purple-400/50 hover:decoration-purple-300"
+                      className="text-purple-400 hover:text-purple-300 transition-colors cursor-pointer underline decoration-purple-400/50 hover:decoration-purple-300 text-sm sm:text-base"
                     >
                       ridhbht4@gmail.com
                     </a>
@@ -993,8 +1001,8 @@ export default function Portfolio() {
                     <Phone className="h-6 w-6 text-white" />
                   </div>
                   <div>
-                    <p className="text-white font-medium">Phone</p>
-                    <p className="text-purple-400">+91 98172 45943</p>
+                    <p className="text-white font-medium text-sm sm:text-base">Phone</p>
+                    <p className="text-purple-400 text-sm sm:text-base">+91 98172 45943</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-4 p-4 bg-gray-900/50 rounded-lg border border-purple-500/20 hover:border-purple-500/40 transition-colors">
@@ -1002,13 +1010,13 @@ export default function Portfolio() {
                     <Location className="h-6 w-6 text-white" />
                   </div>
                   <div>
-                    <p className="text-white font-medium">Location</p>
-                    <p className="text-purple-400">Punjab, India</p>
+                    <p className="text-white font-medium text-sm sm:text-base">Location</p>
+                    <p className="text-purple-400 text-sm sm:text-base">Punjab, India</p>
                   </div>
                 </div>
               </div>
-              <div className="pt-8">
-                <h4 className="text-lg font-bold font-sans text-white mb-4">Follow Me</h4>
+              <div className="pt-6 sm:pt-8">
+                <h4 className="text-base sm:text-lg font-bold font-sans text-white mb-4">Follow Me</h4>
                 <div className="flex space-x-4">
                   <a
                     href="https://github.com/ridhibhatia17"
@@ -1037,10 +1045,10 @@ export default function Portfolio() {
             </div>
             <div>
               <Card className="bg-gray-900/50 border-purple-500/20 hover:border-purple-500/40 transition-all duration-300">
-                <CardContent className="p-8">
-                  <h3 className="text-2xl font-bold font-sans text-white mb-6">Send a Message</h3>
+                <CardContent className="p-6 sm:p-8">
+                  <h3 className="text-xl sm:text-2xl font-bold font-sans text-white mb-6">Send a Message</h3>
                   <form className="space-y-6" onSubmit={handleSubmit}>
-                    <div className="grid md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-300 mb-2">First Name</label>
                         <Input
@@ -1048,7 +1056,7 @@ export default function Portfolio() {
                           value={formData.firstName}
                           onChange={handleInputChange}
                           placeholder="John"
-                          className="bg-gray-900/50 border-purple-500/30 text-white placeholder:text-gray-400 focus:border-purple-400"
+                          className="bg-gray-900/50 border-purple-500/30 text-white placeholder:text-gray-400 focus:border-purple-400 w-full"
                           required
                         />
                       </div>
@@ -1059,7 +1067,7 @@ export default function Portfolio() {
                           value={formData.lastName}
                           onChange={handleInputChange}
                           placeholder="Doe"
-                          className="bg-gray-900/50 border-purple-500/30 text-white placeholder:text-gray-400 focus:border-purple-400"
+                          className="bg-gray-900/50 border-purple-500/30 text-white placeholder:text-gray-400 focus:border-purple-400 w-full"
                           required
                         />
                       </div>
@@ -1072,7 +1080,7 @@ export default function Portfolio() {
                         value={formData.email}
                         onChange={handleInputChange}
                         placeholder="john.doe@example.com"
-                        className="bg-gray-900/50 border-purple-500/30 text-white placeholder:text-gray-400 focus:border-purple-400"
+                        className="bg-gray-900/50 border-purple-500/30 text-white placeholder:text-gray-400 focus:border-purple-400 w-full"
                         required
                       />
                     </div>
@@ -1083,7 +1091,7 @@ export default function Portfolio() {
                         value={formData.subject}
                         onChange={handleInputChange}
                         placeholder="Let's collaborate on a project"
-                        className="bg-gray-900/50 border-purple-500/30 text-white placeholder:text-gray-400 focus:border-purple-400"
+                        className="bg-gray-900/50 border-purple-500/30 text-white placeholder:text-gray-400 focus:border-purple-400 w-full"
                         required
                       />
                     </div>
@@ -1095,7 +1103,7 @@ export default function Portfolio() {
                         onChange={handleInputChange}
                         placeholder="Tell me about your project or just say hello!"
                         rows={5}
-                        className="bg-gray-900/50 border-purple-500/30 text-white placeholder:text-gray-400 focus:border-purple-400 resize-none"
+                        className="bg-gray-900/50 border-purple-500/30 text-white placeholder:text-gray-400 focus:border-purple-400 resize-none w-full"
                         required
                       />
                     </div>
@@ -1111,7 +1119,7 @@ export default function Portfolio() {
                     <Button
                       type="submit"
                       disabled={isSubmitting}
-                      className={`w-full bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white py-3 rounded-lg transition-all duration-300 transform hover:scale-105 cursor-pointer ${
+                      className={`w-full bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white py-3 rounded-lg transition-all duration-300 transform hover:scale-105 cursor-pointer text-sm sm:text-base ${
                         isSubmitting ? "opacity-50 cursor-not-allowed" : ""
                       }`}
                     >
@@ -1127,13 +1135,13 @@ export default function Portfolio() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-6 bg-gradient-to-br from-gray-900 to-purple-950 border-t border-purple-500/20">
-        <div className="max-w-6xl mx-auto">
+      <footer className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-900 to-purple-950 border-t border-purple-500/20">
+        <div className="max-w-7xl mx-auto">
           <div className="text-center space-y-4">
-            <div className="text-3xl font-bold bg-gradient-to-r from-purple-500 to-purple-900 bg-clip-text text-transparent">
+            <div className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-500 to-purple-900 bg-clip-text text-transparent">
               Ridhi Bhatia
             </div>
-            <p className="text-gray-400">Computer Science Student • Web Developer • AI Enthusiast</p>
+            <p className="text-gray-400 text-sm sm:text-base">Computer Science Student • Web Developer • AI Enthusiast</p>
             <div className="flex items-center justify-center space-x-6 pt-4">
               <a
                 href="https://github.com/ridhibhatia17"
@@ -1155,7 +1163,7 @@ export default function Portfolio() {
                 <Mail className="h-5 w-5" />
               </a>
             </div>
-            <div className="pt-8 border-t border-purple-500/20">
+            <div className="pt-6 sm:pt-8 border-t border-purple-500/20">
               <p className="text-gray-500 text-sm">© 2025 Ridhi Bhatia</p>
             </div>
           </div>
