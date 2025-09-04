@@ -16,7 +16,7 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  title: "Ridhi Bhatia - Portfolio",
+  title: "Ridhi Bhatia",
   description: "Computer Science Engineer | Web Developer | AI Enthusiast",
   
 }
