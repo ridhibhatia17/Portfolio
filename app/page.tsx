@@ -454,7 +454,6 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* About Section */}
       <section id="about" className="relative py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-muted/30">
         <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
           <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
@@ -473,8 +472,8 @@ export default function Portfolio() {
             <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-purple-900 mx-auto rounded-full"></div>
           </div>
           <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-center">
-            <div className="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 mx-auto rounded-full bg-gradient-to-br from-purple-500/20 to-purple-900/20 border-2 border-purple-500/30 flex items-center justify-center">
-              <div className="w-44 h-44 sm:w-60 sm:h-60 md:w-72 md:h-72 rounded-full overflow-hidden">
+            <div className="w-48 h-48 sm:w-56 sm:h-56 md:w-80 md:h-80 lg:w-110 lg:h-110 mx-auto rounded-full bg-gradient-to-br from-purple-500/20 to-purple-900/20 border-2 border-purple-500/30 flex items-center justify-center">
+              <div className="w-44 h-44 sm:w-52 sm:h-52 md:w-72 md:h-72 lg:w-99 lg:h-99 rounded-full overflow-hidden">
                 <img
                   src="/images/profile1.jpg"
                   alt="Profile picture of Ridhi Bhatia"
